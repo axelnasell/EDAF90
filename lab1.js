@@ -80,14 +80,17 @@ class Salad {
 class GourmetSalad extends Salad {
 
   add(name, properties, size) { //make copy of properties and modify to add size property, 
-    const propertiesWithSize = {}
-    Object.assign(propertiesWithSize, properties);
-    if(size) {
-      propertiesWithSize['size'] = size;
-      propertiesWithSize['price'] = (propertiesWithSize['price']) * size
-      return super.add(name, propertiesWithSize);
+    const propertiesWithSize = {...properties}
+    if(this.Ingredients[name]) {
+      this.Ingredients[name]['size'] += size
+    } else {
+      propertiesWithSize['size'] = size || 1
     }
     return super.add(name, propertiesWithSize);
+  }
+
+  getPrice() {
+    return Object.values(this.Ingredients).reduce((total, current) => total + (current['price']) * (current['size']), 0);
   }
 
   

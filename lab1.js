@@ -7,6 +7,7 @@
 
 const imported = require("./inventory.js");
 
+
 console.log('inventory: ' + imported.inventory['Sallad']);
 
 console.log('Object.keys():')
@@ -40,10 +41,10 @@ console.log(makeOptions(imported.inventory, 'foundation'));
 
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
+  static instanceCounter = 0;
   constructor(salad) {
 
     //det ska inte va const uuid = uuidv4(); det ska vara this.uuid == uuidv4();
-
     this.Ingredients = {};
     if(typeof salad === 'string') {    //om typen är string vet vi att det är ett JSON object
       this.Object = Object.create(Salad);
@@ -55,6 +56,7 @@ class Salad {
       Object.assign(this.Ingredients, salad.Ingredients) //FEL: detta gör att vår kopia bli samma instans som originale
       delete this['Object']
     }
+    this.id = 'salad_' + Salad.instanceCounter++;
   }
 
   
@@ -82,7 +84,7 @@ class GourmetSalad extends Salad {
   add(name, properties, size) { //make copy of properties and modify to add size property, 
     const propertiesWithSize = {...properties}
     if(this.Ingredients[name]) {
-      this.Ingredients[name]['size'] += size
+      propertiesWithSize['size'] = this.Ingredients[name]['size'] + (size || 1)
     } else {
       propertiesWithSize['size'] = size || 1
     }
@@ -155,10 +157,10 @@ myGourmetSalad.add('Bacon', imported.inventory['Bacon'], 1)
 console.log('Med extra bacon kostar den ' + myGourmetSalad.getPrice() + ' kr');
 
 console.log('\n--- Assignment 6 ---------------------------------------')
-/*
+
 console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
-console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
-*/
+//console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
+
 
 /**
  * Reflection question 4

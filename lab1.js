@@ -6,6 +6,7 @@
  */
 
 const imported = require("./inventory.js");
+const { v4: uuidv4 } = require('uuid');
 
 
 console.log('inventory: ' + imported.inventory['Sallad']);
@@ -44,16 +45,17 @@ class Salad {
   static instanceCounter = 0;
   constructor(salad) {
 
-    //det ska inte va const uuid = uuidv4(); det ska vara this.uuid == uuidv4();
+    this.uuid = uuidv4();
     this.Ingredients = {};
     if(typeof salad === 'string') {    //om typen är string vet vi att det är ett JSON object
       this.Object = Object.create(Salad);
       const json = JSON.parse(salad);
-      Object.assign(this.Ingredients, Object.values(json)[0]);  //Inga metoder finns med jsoncopy
+      Object.assign(this.Ingredients, Object.values(json)[0]);  
+      this.uuid = Object.values(json)[1]; //i have on idea if this works at all
       delete this['Object']
-    } else if(salad instanceof Salad) {  //kollar om salad är en instans av Salad
+    } else if(salad instanceof Salad) {  
       this.Object = Object.create(Salad);
-      Object.assign(this.Ingredients, salad.Ingredients) //FEL: detta gör att vår kopia bli samma instans som originale
+      Object.assign(this.Ingredients, salad.Ingredients) 
       delete this['Object']
     }
     this.id = 'salad_' + Salad.instanceCounter++;
@@ -159,7 +161,8 @@ console.log('Med extra bacon kostar den ' + myGourmetSalad.getPrice() + ' kr');
 console.log('\n--- Assignment 6 ---------------------------------------')
 
 console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
-//console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
+console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
+console.log('Min ceasarsallad har uuid: ' + myCaesarSalad.uuid)
 
 
 /**

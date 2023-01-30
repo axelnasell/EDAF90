@@ -37,9 +37,6 @@ function makeOptions(inv, prop) {
 
 console.log(makeOptions(imported.inventory, 'foundation'));
 
-
-//console.log(makeOptions(imported.inventory, 'foundation'));
-
 console.log('\n--- Assignment 2 ---------------------------------------')
 class Salad {
   static instanceCounter = 0;
@@ -48,45 +45,46 @@ class Salad {
     this.uuid = uuidv4();
     this.Ingredients = {};
     if(typeof salad === 'string') {    //om typen är string vet vi att det är ett JSON object
-      this.Object = Object.create(Salad);
       const json = JSON.parse(salad);
-      Object.assign(this.Ingredients, Object.values(json)[0]);  
-      this.uuid = Object.values(json)[1]; //i have on idea if this works at all
-      delete this['Object']
+      this.Ingredients = json.Ingredients;
+      this.uuid = json.uuid;
     } else if(salad instanceof Salad) {  
-      this.Object = Object.create(Salad);
       Object.assign(this.Ingredients, salad.Ingredients) 
-      delete this['Object']
     }
     this.id = 'salad_' + Salad.instanceCounter++;
   }
 
-  
 
   add(name, properties) {
-    this.Ingredients[`${name}`] = properties;
-    return Object(this);
+    this.Ingredients[name] = properties;
+    return this;
   }
   remove(name) {
-    delete this.Ingredients[`${name}`];
+    delete this.Ingredients[name];
+    return this;
   }
 
-  getPrice() {
-    return Object.values(this.Ingredients).reduce((total, current) => total + current['price'], 0);
-  }
 
   count(property) {
     return Object.values(this.Ingredients).filter((item) => item[property]).length
-}
+  }
 }
 
+
+Salad.prototype.getPrice = function getPrice() {
+  return Object.values(this.Ingredients).reduce((total, current) => total + current['price'], 0);
+}
 
 class GourmetSalad extends Salad {
+
+  constructor(salad) {
+    super(salad);
+  }
 
   add(name, properties, size) { //make copy of properties and modify to add size property, 
     const propertiesWithSize = {...properties}
     if(this.Ingredients[name]) {
-      propertiesWithSize['size'] = this.Ingredients[name]['size'] + (size || 1)
+      propertiesWithSize['size'] = this.Ingredients[name].size + (size || 1)
     } else {
       propertiesWithSize['size'] = size || 1
     }
@@ -96,8 +94,6 @@ class GourmetSalad extends Salad {
   getPrice() {
     return Object.values(this.Ingredients).reduce((total, current) => total + (current['price']) * (current['size']), 0);
   }
-
-  
 }
 
 let myCaesarSalad = new Salad()
@@ -129,6 +125,10 @@ console.log('typeof myCaesarSalad: ' + typeof myCaesarSalad);
 console.log('typeof myCaesarSalad.prototype: ' + typeof myCaesarSalad.prototype);
 console.log('check 1: ' + (Salad.prototype === Object.getPrototypeOf(myCaesarSalad)));
 console.log('check 2: ' + (Object.prototype === Object.getPrototypeOf(Salad.prototype)));
+
+// Klasser är representerad som funktioner och inherited properties är representerad av prototype
+// Alla objekt har en prototype, man kan skapa en kedja av prototypes genom att skriva Object.prototype.prototype etc. 
+// Sista prototype av kedjan är null
 
 console.log('\n--- Assignment 4 ---------------------------------------')
 
@@ -164,13 +164,16 @@ console.log('Min gourmetsallad har id: ' + myGourmetSalad.id);
 console.log('Min gourmetsallad har uuid: ' + myGourmetSalad.uuid);
 console.log('Min ceasarsallad har uuid: ' + myCaesarSalad.uuid)
 
-
 /**
  * Reflection question 4
+ * Static properties are stored in the constructors function's prototype object
  */
 /**
  * Reflection question 5
+ * Ja, Object.defineProperty;
  */
 /**
  * Reflection question 6
+ * Yes, but not the constructor - use for example #privateField
  */
+

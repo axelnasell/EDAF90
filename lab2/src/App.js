@@ -3,6 +3,8 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import inventory from './inventory.ES6';
 import ComposeSalad from './ComposeSalad';
+import ViewOrder from './ViewOrder'
+import OrderItem from './OrderItem';
 
 
 
@@ -18,12 +20,14 @@ function App()
     <ComposeSalad inventory={inventory} />
 
 
-    <div className="continer col-12">
+    {/* <div className="continer col-12">
       <div className="row h-200 p-5 bg-light border rounded-3">
         <h2>Välj innehållet i din sallad</h2>
           {extras.map(name => <div key={name} className="col-4">{name}</div>)}
       </div>
-    </div>
+    </div> */}
+
+    <ViewOrder shoppingCart={OrderItem}/>
 
 
 

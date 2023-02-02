@@ -1,13 +1,6 @@
 import React from 'react';
 
-
-
-
-
-
 class OrderItem extends React.Component {
-
-    
 
     render() {
         const {salad, onRemove} = this.props;
@@ -22,16 +15,8 @@ class OrderItem extends React.Component {
                     
                 </div>
             </li>
-            
-
         );
     }
-
-
 }
-
-
-
-
 
 export default OrderItem;

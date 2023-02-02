@@ -1,33 +1,71 @@
-import { useState } from 'react';
-
-
+import { Component, useState } from 'react';
+import Salad from "./Salad.js"
 
 function ComposeSalad(props) {
-  let extras = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
+  let foundations = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
+  let extras = Object.keys(props.inventory).filter(name => props.inventory[name].extra);
+  let proteins = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
+  let dressings = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
+
   const [foundation, setFoundation] = useState('Pasta'); 
   const [extra, setExtra] = useState({Bacon: true, Fetaost: true}); 
-  let inventory = props.inventory;
+  const [protein, setProtein] = useState("Kycklingfilé"); 
+  const [dressing, setDressing] = useState("Pesto"); 
+
 
   return (
     <div className="container col-12">
-      <div className="row h-200 p-5 bg-light border rounded-3">
-        <form>
-        <h2>Välj bas</h2>
-        <select 
-        value = {foundation}
-        onChange = {((e) => setFoundation(e.target.value))}
-        />
-          <option value="" disabled hidden>Välj en bas</option>
-          <Component props = {props}/>
-        </form>
-      </div>
+    
+      <form onSubmit={this.handleSubmit}>
+
+      {/* <SelectOption value = {foundation} components={foundations} onChange={foundationChange()}/> */}
+
+      {/* <SelectOption value = {protein} components={proteins} onChange={proteinChange()}/> */}
+
+      {/* <SelectOption value = {extra} components={extras} onChange={extrasChange()}/> */}
+
+      {/* <SelectOption value = {dressing} components={dressings} onChange={dressingChange()}/> */}
+
+      </form>
+
     </div>
   );
-
 }
+
+//  handleSubmit (event) {
+//   const salad = new Salad();
+//   salad.add(foundation);
+//   salad.add(protein);
+//   extra.map((v) => salad.add(v));
+//   salad.add(dressing);
+// }
+
+// foundationChange () {
+
+// }
+
+// proteinChange() {
+
+// }
+
+// extrasChange() {
+
+// }
+
+// dressingChange() {
+
+// }
+
+const SelectOption = (props) => (
+  <select
+    value={props.value}
+    onChange = {props.onChange}
+    className = ""
+  > 
+  {props.components.map((component) => (
+      <option key={component}>{component}</option>
+  ))}
+  </select>
+);
+
 export default ComposeSalad;
-
-function Component(props) {
-  {Object.keys(props.inventory).filter((key) => props.inventory[key]['foundation'])
-  .map((key) => (<option value={key}> {key}, {props.inventory[key].price}kr</option>))}
-}

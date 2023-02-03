@@ -27,8 +27,6 @@ function App()
       </div>
     </div> */}
 
-    <ViewOrder shoppingCart={OrderItem}/>
-
 
 
     <footer className="pt-3 mt-4 text-muted border-top">

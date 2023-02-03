@@ -12,49 +12,41 @@ function ComposeSalad(props) {
   const [protein, setProtein] = useState("Kycklingfilé"); 
   const [dressing, setDressing] = useState("Pesto"); 
 
+  function handleSubmit (event) {
+    event.preventDefault();
+    const salad = new Salad();
+    salad.add(foundation, props.inventory[foundation]);
+    salad.add(protein, props.inventory[protein]);
+    Object.keys(extra).map((v) => salad.add(v, props.inventory[v]));
+    salad.add(dressing, props.inventory[dressing]);
+    props.onSubmit(salad);
+    console.log(foundation)
+  }
 
   return (
     <div className="container col-12">
     
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={handleSubmit}>
 
-      {/* <SelectOption value = {foundation} components={foundations} onChange={foundationChange()}/> */}
+      <SelectOption value = {foundation} components={foundations} onChange={(e) => setFoundation(e.target.value)}/>
 
-      {/* <SelectOption value = {protein} components={proteins} onChange={proteinChange()}/> */}
+      <SelectOption value = {protein} components={proteins} onChange={(e) => setProtein(e.target.value)}/>
 
-      {/* <SelectOption value = {extra} components={extras} onChange={extrasChange()}/> */}
+      <SelectOption value = {extra} components={extras} onChange={(e) => setExtra(e.target.value)}/>
 
-      {/* <SelectOption value = {dressing} components={dressings} onChange={dressingChange()}/> */}
+      <SelectOption value = {dressing} components={dressings} onChange={(e) => setDressing(e.target.value)}/>
 
+      <input
+        type="submit"
+        value="submit"
+      />
       </form>
-
     </div>
   );
-}
+};
 
-//  handleSubmit (event) {
-//   const salad = new Salad();
-//   salad.add(foundation);
-//   salad.add(protein);
-//   extra.map((v) => salad.add(v));
-//   salad.add(dressing);
-// }
+ 
 
-// foundationChange () {
-
-// }
-
-// proteinChange() {
-
-// }
-
-// extrasChange() {
-
-// }
-
-// dressingChange() {
-
-// }
 
 const SelectOption = (props) => (
   <select

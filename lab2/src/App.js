@@ -10,14 +10,23 @@ import OrderItem from './OrderItem';
 
 function App()
 {
-  let extras = Object.keys(inventory).filter(name => inventory[name].extra);
+
+  const [shoppingCart, setShoppingCart] = useState([]);
+  const handleSubmit = (salad) => {
+    // console.log(salad);
+    setShoppingCart([...shoppingCart, salad]);
+  };
+
+
   return (
     <div className="container py-4">
     <header className="pb-3 mb-4 border-bottom">
       <span className="fs-4">Min egen salladsbar</span>
     </header>
 
-    <ComposeSalad inventory={inventory} />
+    <ComposeSalad inventory={inventory} onSubmit={handleSubmit}/>
+
+    <ViewOrder items={shoppingCart} />
 
 
     {/* <div className="continer col-12">

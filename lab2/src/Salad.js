@@ -27,3 +27,5 @@ class Salad {
     return Object.values(this.Ingredients).filter((item) => item[property]).length
   }
 }
+
+export default Salad

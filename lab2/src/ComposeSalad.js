@@ -1,5 +1,5 @@
-import { Component, useState } from 'react';
-import Salad from "./Salad.js"
+import {useState } from 'react';
+import Salad from "./Salad";
 
 function ComposeSalad(props) {
   let foundations = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
@@ -23,6 +23,10 @@ function ComposeSalad(props) {
     console.log(foundation)
   }
 
+  const changeExtra= (event) => {
+    setExtra({...extra, [event.target.name]: event.target.checked});
+  }
+
   return (
     <div className="container col-12">
     
@@ -32,9 +36,25 @@ function ComposeSalad(props) {
 
       <SelectOption value = {protein} components={proteins} onChange={(e) => setProtein(e.target.value)}/>
 
-      <SelectOption value = {extra} components={extras} onChange={(e) => setExtra(e.target.value)}/>
-
       <SelectOption value = {dressing} components={dressings} onChange={(e) => setDressing(e.target.value)}/>
+
+      <h2>Extras</h2>
+      <div className="row h-200 p-5 bg-light border rounded-3">
+        {extras.map((component) => (
+        <div key = {component} className = "col-5 p-2">
+        <input
+          type = "checkbox"
+          onChange = {changeExtra}
+          id={component}
+          name={component}
+          checked = {extras[component]}
+        />
+        <label htmlFor={component}>
+          {component}
+        </label>
+      </div>
+      ))}
+    </div>
 
       <input
         type="submit"
@@ -44,9 +64,6 @@ function ComposeSalad(props) {
     </div>
   );
 };
-
- 
-
 
 const SelectOption = (props) => (
   <select

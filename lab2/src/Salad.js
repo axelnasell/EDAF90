@@ -6,7 +6,6 @@ class Salad {
     if(typeof salad === 'string') {    //om typen är string vet vi att det är ett JSON object
       const json = JSON.parse(salad);
       this.Ingredients = json.Ingredients;
-      this.uuid = json.uuid;
     } else if(salad instanceof Salad) {  
       Object.assign(this.Ingredients, salad.Ingredients) 
     }

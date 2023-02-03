@@ -33,9 +33,13 @@ class Salad {
   }
 }
 
+<<<<<<< HEAD
 
 Salad.prototype.getPrice = function getPrice() {
   return Object.values(this.Ingredients).reduce((total, current) => total + current['price'], 0);
 }
 
 export default Salad;
+=======
+export default Salad
+>>>>>>> 093d215d8e2bc069ac2425b34007c76c28377768

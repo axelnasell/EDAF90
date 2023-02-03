@@ -20,7 +20,16 @@ function ComposeSalad(props) {
     Object.keys(extra).map((v) => salad.add(v, props.inventory[v]));
     salad.add(dressing, props.inventory[dressing]);
     props.onSubmit(salad);
+
     console.log(foundation)
+    console.log(extra)
+    console.log(protein)
+    console.log(dressing)
+
+    setFoundation(foundations[0]);
+    setDressing(dressings[0]);
+    setProtein(proteins[0]);
+    setExtra({});
   }
 
   const changeExtra= (event) => {

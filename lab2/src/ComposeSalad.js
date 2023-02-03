@@ -31,14 +31,16 @@ function ComposeSalad(props) {
     <div className="container col-12">
     
       <form onSubmit={handleSubmit}>
-
+      <h3>Välj Bas</h3>
       <SelectOption value = {foundation} components={foundations} onChange={(e) => setFoundation(e.target.value)}/>
 
+      <h3>Välj Protein</h3>
       <SelectOption value = {protein} components={proteins} onChange={(e) => setProtein(e.target.value)}/>
 
+      <h3>Välj Dressing</h3>
       <SelectOption value = {dressing} components={dressings} onChange={(e) => setDressing(e.target.value)}/>
 
-      <h2>Extras</h2>
+      <h3>Extra</h3>
       <div className="row h-200 p-5 bg-light border rounded-3">
         {extras.map((component) => (
         <div key = {component} className = "col-5 p-2">
@@ -67,9 +69,9 @@ function ComposeSalad(props) {
 
 const SelectOption = (props) => (
   <select
+    className="form-select"
     value={props.value}
     onChange = {props.onChange}
-    className = ""
   > 
   {props.components.map((component) => (
       <option key={component}>{component}</option>

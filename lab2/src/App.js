@@ -6,17 +6,16 @@ import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'
 
 
-function App()
-{
+function App() {
   const [shoppingCart, setShoppingCart] = useState([]);
   const handleSubmit = (salad) => {
-  setShoppingCart([...shoppingCart, salad]);
-  };
-
-  // let extras = Object.keys(inventory).filter(name => inventory[name].extra);
+  console.log(salad)
+    setShoppingCart([...shoppingCart, salad]);
+  console.log(shoppingCart)
+  };  
 
   return (
-    <div className="container py-4">
+    <div className="container py-5">
     <header className="pb-3 mb-4 border-bottom">
       <span className="fs-4">Min egen salladsbar</span>
     </header>
@@ -27,13 +26,6 @@ function App()
           <ViewOrder components={shoppingCart}/>
         </div>
     </div>
-
-    {/* <div className="continer col-12">
-      <div className="row h-200 p-5 bg-light border rounded-3">
-        <h2>Välj innehållet i din sallad</h2>
-          {extras.map(name => <div key={name} className="col-4">{name}</div>)}
-      </div>
-    </div> */}
 
     <footer className="pt-3 mt-4 text-muted border-top">
       EDAF90 - webprogrammering

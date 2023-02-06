@@ -21,10 +21,6 @@ function ComposeSalad(props) {
     salad.add(dressing, props.inventory[dressing]);
     props.onSubmit(salad);
 
-    console.log(foundation)
-    console.log(extra)
-    console.log(protein)
-    console.log(dressing)
 
     setFoundation(foundations[0]);
     setDressing(dressings[0]);
@@ -53,12 +49,13 @@ function ComposeSalad(props) {
       <div className="row h-200 p-5 bg-light border rounded-3">
         {extras.map((component) => (
         <div key = {component} className = "col-5 p-2">
-        <input
+        <input  
           type = "checkbox"
           onChange = {changeExtra}
           id={component}
           name={component}
-          checked = {extras[component]}
+          checked = {extra[component] || false}
+          className="form-check"
         />
         <label htmlFor={component}>
           {component}
@@ -70,6 +67,7 @@ function ComposeSalad(props) {
       <input
         type="submit"
         value="submit"
+        className="btn btn-dark"
       />
       </form>
     </div>
@@ -83,7 +81,7 @@ const SelectOption = (props) => (
     onChange = {props.onChange}
   > 
   {props.components.map((component) => (
-      <option key={component}>{component}</option>
+      <option key={component} value={component}>{component}</option>
   ))}
   </select>
 );

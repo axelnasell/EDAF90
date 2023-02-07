@@ -58,7 +58,7 @@ function ComposeSalad(props) {
           onChange = {changeExtra}
           id={component}
           name={component}
-          checked = {extras[component]}
+          checked = {extra[component] || false}
         />
         <label htmlFor={component}>
           {component}

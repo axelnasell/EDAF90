@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.bg {
+  background-image: url("https://cdn.pixabay.com/photo/2020/11/24/02/49/fresh-5771424_960_720.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+}

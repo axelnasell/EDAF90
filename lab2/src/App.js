@@ -13,9 +13,11 @@ function App()
   setShoppingCart([...shoppingCart, salad]);
   };
 
+
   // let extras = Object.keys(inventory).filter(name => inventory[name].extra);
 
   return (
+    <div className="bg">
     <div className="container py-4">
     <header className="pb-3 mb-4 border-bottom">
       <span className="fs-4">Min egen salladsbar</span>
@@ -26,6 +28,7 @@ function App()
           <ComposeSalad inventory={inventory} onSubmit={handleSubmit} />
           <ViewOrder components={shoppingCart}/>
         </div>
+      </div>
     </div>
 
     {/* <div className="continer col-12">

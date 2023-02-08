@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import inventory from './inventory.ES6';
 import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'
-import { BrowserRouter ,Routes, Route, NavLink } from 'react-router-dom'; 
+import ViewIngredient from './ViewIngredient'
+import {Routes, Route, NavLink } from 'react-router-dom'; 
 
 
 function App()
@@ -47,12 +48,10 @@ function App()
         <Routes>
         <Route path='/' element={<h2>Hej och välkommen till vår fantastiska hemsida</h2>}></Route>
         <Route path='Compose-Salad' element={
-         <div>
-          <h2>Bygg din sallad</h2> 
         <ComposeSalad inventory={inventory} onSubmit={handleSubmit} />
-        </div>
         }></Route>
         <Route path='View-Order' element={<ViewOrder components={shoppingCart}/>}></Route>
+        <Route path='Compose-Salad/View-Ingredient/:component' element={<ViewIngredient />}></Route>
         <Route path='*' element={<h2>404 page not found</h2>}></Route>
        </Routes>
       </div>

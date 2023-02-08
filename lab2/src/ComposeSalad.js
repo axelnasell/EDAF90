@@ -1,5 +1,6 @@
 import {useState } from 'react';
 import Salad from "./Salad";
+import { useNavigate, NavLink } from "react-router-dom";
 
 function ComposeSalad(props) {
   let foundations = Object.keys(props.inventory).filter(name => props.inventory[name].foundation);
@@ -7,10 +8,11 @@ function ComposeSalad(props) {
   let proteins = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   let dressings = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
 
-  const [foundation, setFoundation] = useState('Pasta'); 
+  const [foundation, setFoundation] = useState(''); 
   const [extra, setExtra] = useState({Bacon: true, Fetaost: true}); 
-  const [protein, setProtein] = useState("Kycklingfilé"); 
-  const [dressing, setDressing] = useState("Pesto"); 
+  const [protein, setProtein] = useState(''); 
+  const [dressing, setDressing] = useState(''); 
+  const navigate = useNavigate()
 
   function handleSubmit (event) {
     event.preventDefault();
@@ -21,15 +23,13 @@ function ComposeSalad(props) {
     salad.add(dressing, props.inventory[dressing]);
     props.onSubmit(salad);
 
-    console.log(foundation)
-    console.log(extra)
-    console.log(protein)
-    console.log(dressing)
-
     setFoundation(foundations[0]);
     setDressing(dressings[0]);
     setProtein(proteins[0]);
     setExtra({});
+
+    navigate("/View-Order")
+
   }
 
   const changeExtra= (event) => {
@@ -39,6 +39,8 @@ function ComposeSalad(props) {
   return (
     <div className="container col-12">
     
+    <h2>Bygg din sallad</h2> 
+
       <form onSubmit={handleSubmit}>
       <h3>Välj Bas</h3>
       <SelectOption value = {foundation} components={foundations} onChange={(e) => setFoundation(e.target.value)}/>
@@ -63,9 +65,12 @@ function ComposeSalad(props) {
         <label htmlFor={component}>
           {component}
         </label>
+        <NavLink className="nav-link" to={"View-Ingredient/" + component}>
+          info
+        </NavLink>
+        </div>
+        ))}
       </div>
-      ))}
-    </div>
 
       <input
         type="submit"
@@ -79,7 +84,7 @@ function ComposeSalad(props) {
 const SelectOption = (props) => (
   <select
     className="form-select"
-    value={props.value}
+    value= {props.value}
     onChange = {props.onChange}
   > 
   {props.components.map((component) => (

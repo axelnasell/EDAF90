@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import inventory from './inventory.ES6';
 import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'
+import { BrowserRouter ,Routes, Route, NavLink } from 'react-router-dom'; 
 
 
 function App()
@@ -20,20 +21,40 @@ function App()
   )}
     
    function NavBar(props) { return (
-    <ul className="nav nav-tabs">
-      <li className="nav-item"></li>
-      {/* <NavLink className="nav-link" to="/compose-salad">
-      Komponera en sallad
-      </NavLink> */}
-    </ul>
+    <div>
+      <ul className="nav nav-tabs">
+        <li className="nav-item"></li>
+        <li>
+          <NavLink className="nav-link" to="/">
+          Home
+          </NavLink>
+        </li>
+        <NavLink className="nav-link" to="Compose-Salad">
+        Komponera en sallad
+        </NavLink>
+        <li>
+          <NavLink className="nav-link" to="View-Order">
+            Din Beställning
+          </NavLink>
+        </li>
+      </ul>
+      </div>
     );}
     
   function PageContent(props) { return (
     <div className="container col-12">
       <div className="row h-200 p-5 bg-light border rounded-3">
-        <h2>Bygg din sallad</h2>
+        <Routes>
+        <Route path='/' element={<h2>Hej och välkommen till vår fantastiska hemsida</h2>}></Route>
+        <Route path='Compose-Salad' element={
+         <div>
+          <h2>Bygg din sallad</h2> 
         <ComposeSalad inventory={inventory} onSubmit={handleSubmit} />
-        <ViewOrder components={shoppingCart}/>
+        </div>
+        }></Route>
+        <Route path='View-Order' element={<ViewOrder components={shoppingCart}/>}></Route>
+        <Route path='*' element={<h2>404 page not found</h2>}></Route>
+       </Routes>
       </div>
     </div>
   )}

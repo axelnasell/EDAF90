@@ -8,10 +8,10 @@ function ComposeSalad(props) {
   let proteins = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   let dressings = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
 
-  const [foundation, setFoundation] = useState(''); 
+  const [foundation, setFoundation] = useState('Pasta'); 
   const [extra, setExtra] = useState({Bacon: true, Fetaost: true}); 
-  const [protein, setProtein] = useState(''); 
-  const [dressing, setDressing] = useState(''); 
+  const [protein, setProtein] = useState('Kycklingfilé'); 
+  const [dressing, setDressing] = useState('Pesto'); 
   const navigate = useNavigate()
 
   function handleSubmit (event) {
@@ -19,7 +19,12 @@ function ComposeSalad(props) {
     const salad = new Salad();
     salad.add(foundation, props.inventory[foundation]);
     salad.add(protein, props.inventory[protein]);
-    Object.keys(extra).map((v) => salad.add(v, props.inventory[v]));
+    Object.keys(extra).map((v) => 
+    <>
+    {(extra[v]) && salad.add(v, props.inventory[v])}
+    </>
+    );  
+    
     salad.add(dressing, props.inventory[dressing]);
     props.onSubmit(salad);
 
@@ -83,6 +88,7 @@ function ComposeSalad(props) {
 
 const SelectOption = (props) => (
   <select
+    required
     className="form-select"
     value= {props.value}
     onChange = {props.onChange}

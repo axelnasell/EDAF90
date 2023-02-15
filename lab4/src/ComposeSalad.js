@@ -8,10 +8,10 @@ function ComposeSalad(props) {
   let proteins = Object.keys(props.inventory).filter(name => props.inventory[name].protein);
   let dressings = Object.keys(props.inventory).filter(name => props.inventory[name].dressing);
 
-  const [foundation, setFoundation] = useState(); 
+  const [foundation, setFoundation] = useState('Pasta'); 
   const [extra, setExtra] = useState({}); 
-  const [protein, setProtein] = useState(); 
-  const [dressing, setDressing] = useState(); 
+  const [protein, setProtein] = useState('Kycklingfilé'); 
+  const [dressing, setDressing] = useState('Pesto'); 
   const navigate = useNavigate()
 
   function handleSubmit (event) {

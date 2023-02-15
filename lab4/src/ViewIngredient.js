@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import inventory from "./inventory.ES6";
+//import inventory from "./inventory.ES6";
 
 function ViewIngredient(props) {
     const {component} = useParams()
-    if(!inventory[component]) {
+    if(!props.inventory[component]) {
       return (<h2>404 not found</h2>)
     }
 
@@ -12,9 +12,9 @@ function ViewIngredient(props) {
             <h2>{component}</h2> 
           <ul className="list-group list-group-flush">
             <li className="list-group-item d-flex justify-content-between p-3">
-                Price: {Object.values(inventory[component])}kr
+                Price: {Object.values(props.inventory[component])}kr
             </li>
-            {Object.keys(inventory[component]).map((prop) => (
+            {Object.keys(props.inventory[component]).map((prop) => (
             <>
                 {(prop !== "price" && prop !== "extra") && (
                 <li

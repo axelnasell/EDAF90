@@ -6,27 +6,35 @@ import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'
 import ViewIngredient from './ViewIngredient'
 import {Routes, Route, NavLink} from 'react-router-dom'; 
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 
 function App()
 {
+  const[allFetched, setAllFetched] = useState(false)
   const[inventory, setInventory] = useState([]);
   const [shoppingCart, setShoppingCart] = useState([]);
   const handleSubmit = (salad) => {
   setShoppingCart([...shoppingCart, salad]);
   };
-  useEffect(() => {
-  })
-
-  //setInventory([...inventory, fetchIngredient('extras', 'Bacon')])
-  //setInventory({"price":10,"extra":true})
-  //fetchIngredient('extras', 'Bacon').then(response => console.log(response))
-  fetchAllIngredients('extras').then(response => console.log(response))
-  //fetchAllProperties('extras').then(response => console.log(response))
+  if(!allFetched) {
+    Promise.all([
+      fetchAllIngredients('extras'),
+      fetchAllIngredients('foundations'),
+      fetchAllIngredients('proteins'),
+      fetchAllIngredients('dressings')
+    ])
+    .then(setAllFetched(true))
+  }
+  // useEffect(() => {
+  // })
 
   async function fetchIngredient(type, ingredient) {
-    return await safeFetchJson('http://localhost:8080/' + type + '/' + ingredient);  
+    return await safeFetchJson('http://localhost:8080/' + type + '/' + ingredient)
+      .then(data => {
+        setInventory((oldInventory) => ({...oldInventory, [ingredient]:data}))
+      })
+        
   }
 
   async function fetchAllIngredients(ingredient) {  
@@ -38,11 +46,11 @@ function App()
       })
   }
 
-  async function fetchAllProperties(ingredients) {
-    return await fetchAllIngredients(ingredients).prototype.map(component => {
-        return fetchIngredient(ingredients, component);
-    })
-  }
+  // async function fetchAllProperties(ingredients) {
+  //   return await fetchAllIngredients(ingredients).prototype.map(component => {
+  //       return fetchIngredient(ingredients, component);
+  //   })
+  // }
 
   async function safeFetchJson(url) {
     return fetch(url)
@@ -83,7 +91,8 @@ function App()
       </div>
     );}
     
-  function PageContent(props) { return (
+  function PageContent(props) { 
+    return (
     <div className="container col-12">
       <div className="row h-200 p-5 bg-light border rounded-3">
         <Routes>
@@ -93,7 +102,7 @@ function App()
         <ComposeSalad inventory={inventory} onSubmit={handleSubmit} />
         }></Route>
         <Route path='View-Order' element={<ViewOrder components={shoppingCart}/>}></Route>
-        <Route path='Compose-Salad/View-Ingredient/:component' element={<ViewIngredient />}></Route>
+        <Route path='Compose-Salad/View-Ingredient/:component' element={<ViewIngredient inventory={inventory}/>}></Route>
        </Routes>
       </div>
     </div>

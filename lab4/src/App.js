@@ -17,14 +17,31 @@ function App()
   setShoppingCart([...shoppingCart, salad]);
   };
   useEffect(() => {
-    console.log(fetchIngredient('http://localhost:8080/extras/Bacon'))
   })
 
   //setInventory([...inventory, fetchIngredient('extras', 'Bacon')])
   //setInventory({"price":10,"extra":true})
+  //fetchIngredient('extras', 'Bacon').then(response => console.log(response))
+  fetchAllIngredients('extras').then(response => console.log(response))
+  //fetchAllProperties('extras').then(response => console.log(response))
 
   async function fetchIngredient(type, ingredient) {
-    return await safeFetchJson('http://localhost:8080/extras/Bacon');  
+    return await safeFetchJson('http://localhost:8080/' + type + '/' + ingredient);  
+  }
+
+  async function fetchAllIngredients(ingredient) {  
+    return await safeFetchJson('http://localhost:8080/' + ingredient)
+      .then(data => {
+        data.map(component => {
+          return fetchIngredient(ingredient, component)
+        })
+      })
+  }
+
+  async function fetchAllProperties(ingredients) {
+    return await fetchAllIngredients(ingredients).prototype.map(component => {
+        return fetchIngredient(ingredients, component);
+    })
   }
 
   async function safeFetchJson(url) {
@@ -32,7 +49,7 @@ function App()
       .then(response => {
       if(!response.ok) {
         console.log('Error with fetch')
-        throw new Error('${url} returned status ${response.status}');
+        throw new Error({url} + 'returned status' + response.status);
       }
       return response.json();
       });

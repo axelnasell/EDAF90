@@ -31,6 +31,11 @@ class Salad {
   count(property) {
     return Object.values(this.Ingredients).filter((item) => item[property]).length
   }
+
+  static parseArray(str) {
+    const arr = JSON.parse(str) || [];
+    return arr.map((obj) =>  new Salad(obj))
+  }
 }
 
 Salad.prototype.getPrice = function getPrice() {

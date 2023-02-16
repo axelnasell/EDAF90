@@ -6,7 +6,8 @@ import ComposeSalad from './ComposeSalad';
 import ViewOrder from './ViewOrder'
 import ViewIngredient from './ViewIngredient'
 import {Routes, Route, NavLink} from 'react-router-dom'; 
-//import { useEffect } from 'react';
+import Salad from './Salad'
+import { useEffect } from 'react';
 
 
 function App()
@@ -14,9 +15,24 @@ function App()
   const[allFetched, setAllFetched] = useState(false)
   const[inventory, setInventory] = useState([]);
   const [shoppingCart, setShoppingCart] = useState([]);
+
+  useEffect(() => {
+    try {
+      setShoppingCart(Salad.parseArray(window.localStorage.getItem("salads")))
+    } catch {
+
+    }
+  }, [])
+
   const handleSubmit = (salad) => {
-  setShoppingCart([...shoppingCart, salad]);
+    const newCart = [...shoppingCart, salad]
+    setShoppingCart(newCart);
+    window.localStorage.setItem("salads", JSON.stringify(newCart))
   };
+  const clearCart = () => {
+    window.localStorage.setItem("salads", "[]");
+  }
+
   if(!allFetched) {
     Promise.all([
       fetchAllIngredients('extras'),
@@ -26,8 +42,6 @@ function App()
     ])
     .then(setAllFetched(true))
   }
-  // useEffect(() => {
-  // })
 
   async function fetchIngredient(type, ingredient) {
     return await safeFetchJson('http://localhost:8080/' + type + '/' + ingredient)
@@ -45,12 +59,6 @@ function App()
         })
       })
   }
-
-  // async function fetchAllProperties(ingredients) {
-  //   return await fetchAllIngredients(ingredients).prototype.map(component => {
-  //       return fetchIngredient(ingredients, component);
-  //   })
-  // }
 
   async function safeFetchJson(url) {
     return fetch(url)
@@ -101,7 +109,7 @@ function App()
         <Route path='Compose-Salad' element={
         <ComposeSalad inventory={inventory} onSubmit={handleSubmit} />
         }></Route>
-        <Route path='View-Order' element={<ViewOrder components={shoppingCart}/>}></Route>
+        <Route path='View-Order' element={<ViewOrder components={shoppingCart} clearCart={clearCart}/>}></Route>
         <Route path='Compose-Salad/View-Ingredient/:component' element={<ViewIngredient inventory={inventory}/>}></Route>
        </Routes>
       </div>

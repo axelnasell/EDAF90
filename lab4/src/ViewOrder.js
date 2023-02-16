@@ -1,26 +1,32 @@
-function postOrder() {
-    fetch('http://localhost:8080/orders', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify("order")
-  })
-  .then(response => {
-    console.log(response)
-  })
-  .then(data => {
-    console.log(data)
-  })
-} 
+import { useEffect, useState } from 'react';
 
 function ViewOrder(props) {
 
-    const orders = {}
+    const[responseOk, setResponseOk] = useState(false)
+    if(responseOk) {
+      return (<h2>Tack för din beställning</h2>)
+    }
     if (!props.components || props.components.length === 0) {
       return "";
     }
     const totPrice = props.components.reduce((sum, item) => sum + item.getPrice(), 0);
+
+    function postOrder() {
+      props.clearCart()
+      fetch('http://localhost:8080/orders/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(props.components?.map((item) =>  (Object.keys(item.Ingredients))))
+    })
+    .then(async response => {
+      const rep = await response.json()
+      if (response.ok) {
+        setResponseOk(true);
+      }
+    })
+    } 
   
     return (
       <>
@@ -37,12 +43,11 @@ function ViewOrder(props) {
                 <span className="fw-bold text-nowrap">
                   {item.getPrice()} kr 
                 </span>
-                {orders = Object.keys(item.Ingredients).join(", ")}
               </li>
             ))}
           </ul>
           <h3 className="m-3">Total Price: {totPrice} kr</h3>
-          <button onClick={postOrder()}>Click me</button>
+          <button onClick={postOrder}>Click me</button>
         </div>
       </>
     );

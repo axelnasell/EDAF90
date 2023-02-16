@@ -3,18 +3,22 @@ const { v4: uuidv4 } = require("uuid");
 
 class Salad {
   static instanceCounter = 0;
-  constructor(salad) {
-
+  constructor(arg) {
     this.uuid = uuidv4();
-    this.Ingredients = {};
-    if(typeof salad === 'string') {    //om typen är string vet vi att det är ett JSON object
-      const json = JSON.parse(salad);
-      this.Ingredients = json.Ingredients;
-      this.uuid = json.uuid;
-    } else if(salad instanceof Salad) {  
-      Object.assign(this.Ingredients, salad.Ingredients) 
+    this.id = "Salad_" + Salad.instanceCounter++;
+
+    if (arg instanceof Salad) {
+      //If arg is a salad obj
+      this.Ingredients = arg.Ingredients;
+      return this;
+    } else if (typeof arg === "string") {
+      this.uuid = JSON.parse(arg).uuid;
+      this.Ingredients = JSON.parse(arg).Ingredients;
+      return this;
+    } else {
+      this.Ingredients = arg?.Ingredients || {};
+      return this;
     }
-    this.id = 'salad_' + Salad.instanceCounter++;
   }
 
 

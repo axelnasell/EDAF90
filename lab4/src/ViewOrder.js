@@ -12,13 +12,15 @@ function ViewOrder(props) {
     const totPrice = props.components.reduce((sum, item) => sum + item.getPrice(), 0);
 
     function postOrder() {
+      const order = props.components?.map((item) =>  (Object.keys(item.Ingredients)))
       props.clearCart()
+      try {
       fetch('http://localhost:8080/orders/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(props.components?.map((item) =>  (Object.keys(item.Ingredients))))
+      body: JSON.stringify(order)
     })
     .then(async response => {
       const rep = await response.json()
@@ -26,6 +28,8 @@ function ViewOrder(props) {
         setResponseOk(true);
       }
     })
+  } 
+  catch {}
     } 
   
     return (

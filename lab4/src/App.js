@@ -20,17 +20,18 @@ function App()
     try {
       setShoppingCart(Salad.parseArray(window.localStorage.getItem("salads")))
     } catch {
-
     }
   }, [])
 
   const handleSubmit = (salad) => {
     const newCart = [...shoppingCart, salad]
     setShoppingCart(newCart);
+    console.log(JSON.stringify(newCart))
     window.localStorage.setItem("salads", JSON.stringify(newCart))
   };
   const clearCart = () => {
-    window.localStorage.setItem("salads", "[]");
+    window.localStorage.setItem("salads", "[]")
+    setShoppingCart([])
   }
 
   if(!allFetched) {
